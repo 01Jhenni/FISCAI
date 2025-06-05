@@ -344,6 +344,70 @@ const Upload = () => {
     }
   };
 
+  const handleIndividualFileUpload = async (typeId: string) => {
+    if (!selectedCompany) {
+      toast({
+        title: "Selecione uma empresa",
+        description: "É necessário selecionar uma empresa antes de enviar os arquivos",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    const fileType = fileTypes.find(type => type.id === typeId);
+    if (!fileType || fileType.files.length === 0) {
+      toast({
+        title: `Nenhum arquivo selecionado para ${fileType?.name || 'este tipo'}`,
+        description: "Por favor, selecione ao menos um arquivo para enviar",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsSubmitting(true); // Consider a more granular loading state per file type
+
+    const formData = new FormData();
+    formData.append('companyId', selectedCompany);
+    formData.append('month', selectedMonth); // Assuming month is relevant for backend path
+    formData.append('fileType', typeId);
+    
+    fileType.files.forEach(file => {
+      formData.append('files', file);
+    });
+
+    try {
+      // TODO: Replace with actual backend API call
+      console.log(`Simulating upload for ${fileType.name} to backend...`);
+      console.log('Files:', fileType.files);
+      console.log('Company ID:', selectedCompany);
+      console.log('Month:', selectedMonth);
+      console.log('File Type:', typeId);
+
+      // Simulate a backend response
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast({
+        title: `${fileType.name} enviados com sucesso!`,
+        description: "Seus arquivos foram recebidos e estão sendo processados.",
+      });
+
+      // Optionally reset files for this type after successful upload
+      setFileTypes(prev => prev.map(type =>
+        type.id === typeId ? { ...type, files: [], uploaded: false, date: null } : type
+      ));
+
+    } catch (error) {
+      console.error(`Error uploading ${fileType.name}:`, error);
+      toast({
+        title: `Erro ao enviar ${fileType.name}`,
+        description: "Ocorreu um erro durante o envio. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false); // Consider a more granular loading state
+    }
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Upload de Arquivos</h1>
@@ -456,30 +520,32 @@ const Upload = () => {
                           </label>
                         </Button>
                       </div>
+                      {fileType.files.length > 0 && ( // Only show "Enviar" if files are selected for this type
+                        <div>
+                          <Button
+                            variant="default"
+                            className="w-full flex items-center gap-2 mt-2"
+                            onClick={() => handleIndividualFileUpload(fileType.id)}
+                            disabled={isSubmitting || !selectedCompany}
+                          >
+                            {isSubmitting ? ( // You might want a separate loading state for each button
+                              <div className="flex items-center gap-2">
+                                <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
+                                <span>Enviando {fileType.name}...</span>
+                              </div>
+                            ) : (
+                              <>
+                                <UploadIcon className="h-5 w-5" />
+                                Enviar {fileType.name}
+                              </>
+                            )}
+                          </Button>
+                        </div>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
               ))}
-            </div>
-
-            <div className="mt-8">
-              <Button 
-                onClick={handleSubmit} 
-                className="w-full md:w-auto flex items-center gap-2"
-                disabled={isSubmitting || !selectedCompany}
-              >
-                {isSubmitting ? (
-                  <div className="flex items-center gap-2">
-                    <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white"></div>
-                    <span>Enviando...</span>
-                  </div>
-                ) : (
-                  <>
-                    <UploadIcon className="h-5 w-5" />
-                    Enviar Arquivos
-                  </>
-                )}
-              </Button>
             </div>
           </div>
         </TabsContent>
