@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { createClient } from '@supabase/supabase-js';
 
-const supabaseUrl = "https://zssdfngiyvxrmlwssvoy.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inpzc2RmbmdpeXZ4cm1sd3Nzdm95Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc4NDczMzYsImV4cCI6MjA2MzQyMzMzNn0.rEZwsG_hFy7ikxfUd2nBxqz2clQtuds2Ja5MM9SwQtY";
+const supabaseUrl = "https://qmjwnkvajxdbozvdmyjs.supabase.co";
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFtandua3ZhanhkYm96dmRteWpzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDkyMTM0MzgsImV4cCI6MjA2NDc4OTQzOH0.y968JiseuwLr55JtHh-Iata8t8Dkam6FsaJH1a6kDX8";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 type UserType = "client" | "staff";

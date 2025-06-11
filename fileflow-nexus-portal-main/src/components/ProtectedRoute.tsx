@@ -36,7 +36,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ userType }) => {
 
   if (user?.type !== userType) {
     console.log('ProtectedRoute: Wrong user type, redirecting to dashboard');
-    return <Navigate to={`/${user?.type === 'client' ? 'cliente' : 'staff'}/dashboard`} />;
+    return <Navigate to={`/${user?.type === 'client' ? 'cliente/upload' : 'staff/dashboard'}`} />;
   }
 
   console.log('ProtectedRoute: Rendering protected content');

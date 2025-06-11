@@ -33,10 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children, userType }) => {
   };
 
   const clientLinks = [
-    { to: '/cliente/dashboard', label: 'Dashboard', icon: <LayoutDashboard className="h-5 w-5" /> },
     { to: '/cliente/upload', label: 'Upload de Arquivos', icon: <Upload className="h-5 w-5" /> },
-    { to: '/cliente/financeiro', label: 'Financeiro', icon: <DollarSign className="h-5 w-5" /> },
-    { to: '/cliente/suporte', label: 'Suporte', icon: <MessageSquare className="h-5 w-5" /> },
   ];
 
   const staffLinks = [
@@ -134,9 +131,8 @@ const SidebarContent: React.FC<SidebarContentProps> = ({
   return (
     <div className="flex h-full flex-col gap-4">
       <div className="flex h-[60px] items-center px-6">
-        <Link to={`/${userType === 'client' ? 'cliente' : 'staff'}/dashboard`} className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-          <span className="font-semibold">FileFlow Nexus</span>
+        <Link to={`/${userType === 'client' ? 'cliente/upload' : 'staff/dashboard'}`} className="flex items-center gap-2">
+          <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
         </Link>
       </div>
       <div className="flex-1 overflow-auto">

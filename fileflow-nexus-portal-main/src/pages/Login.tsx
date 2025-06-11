@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
@@ -21,14 +20,8 @@ const Login = () => {
 
     try {
       await login(email, password);
-      
-      // Redireciona baseado no tipo de usuário
-      if (email.includes('cliente')) {
-        navigate('/cliente/dashboard');
-      } else {
-        navigate('/staff/dashboard');
-      }
-      
+      // Redireciona sempre para a página do cliente
+      navigate('/cliente/upload');
       toast({
         title: "Login realizado com sucesso",
         description: "Bem-vindo ao sistema FiscAI",
@@ -45,24 +38,12 @@ const Login = () => {
     }
   };
 
-  // Para fins de teste, adicionar botões para diferentes perfis
-  const loginAsClient = () => {
-    setEmail('cliente@exemplo.com');
-    setPassword('senha123');
-  };
-
-  const loginAsStaff = () => {
-    setEmail('staff@exemplo.com');
-    setPassword('senha123');
-  };
-
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 to-indigo-900 p-4">
       <div className="max-w-md w-full relative z-10">
         {/* Logo e branding */}
         <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold text-white mb-2">FiscAI</h1>
-          <p className="text-blue-200">Inteligência fiscal para sua empresa</p>
+          <img src="/logo.png" alt="Logo FiscAI" className="mx-auto mb-2 h-32 w-auto bg-transparent shadow-none" style={{ background: 'none', boxShadow: 'none' }} />
         </div>
         
         <Card className="border-0 shadow-2xl backdrop-blur-sm bg-white/90">
@@ -114,19 +95,6 @@ const Login = () => {
               </Button>
             </form>
           </CardContent>
-          <CardFooter className="flex flex-col gap-2 border-t pt-4">
-            <div className="text-sm text-center text-gray-500 mb-2">
-              Para fins de demonstração:
-            </div>
-            <div className="flex justify-between w-full gap-2">
-              <Button variant="outline" size="sm" className="w-1/2 hover:bg-blue-50" onClick={loginAsClient}>
-                Entrar como Cliente
-              </Button>
-              <Button variant="outline" size="sm" className="w-1/2 hover:bg-blue-50" onClick={loginAsStaff}>
-                Entrar como Colaborador
-              </Button>
-            </div>
-          </CardFooter>
         </Card>
         
         {/* Decorative elements */}
